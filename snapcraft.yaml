@@ -1,0 +1,61 @@
+name: rustup
+base: core22
+version: '1.26.0'
+summary: The Rust toolchain installer
+description: |
+    Rustup installs The Rust Programming Language from the official release
+    channels, enabling you to easily switch between stable, beta, and nightly
+    compilers and keep them updated. It makes cross-compiling simpler with
+    binary builds of the standard library for common platforms.
+    And it runs on all platforms Rust supports, including Windows.
+grade: stable
+confinement: classic
+
+parts:
+  rustup:
+    plugin: rust
+    rust-use-global-lto: 1
+    rust-features: [ no-self-update ]
+    source: https://github.com/rust-lang/rustup.git
+    source-type: git
+    source-tag: '1.26.0'
+    build-packages:
+      - pkg-config
+      - libssl-dev
+      - zlib1g-dev
+    override-prime: |
+        craftctl default
+        mv -v "$CRAFT_PRIME"/bin/rustup-init "$CRAFT_PRIME"/bin/rustup
+        # create symlinks to other tools
+        _bins=(rustc cargo cargo-clippy cargo-fmt cargo-miri clippy-driver rust-gdb rust-lldb rls rust-analyzer rustdoc rustfmt)
+        for b in "${_bins[@]}"; do
+            ln -sv rustup "$CRAFT_PRIME"/bin/$b
+        done
+
+apps:
+  rustup:
+    command: bin/rustup
+  cargo:
+    command: bin/cargo
+  rustc:
+    command: bin/rustc
+  cargo-clippy:
+    command: bin/cargo-clippy
+  cargo-fmt:
+    command: bin/cargo-fmt
+  cargo-miri:
+    command: bin/cargo-miri
+  clippy-driver:
+    command: bin/clippy-driver
+  rust-gdb:
+    command: bin/rust-gdb
+  rust-lldb:
+    command: bin/rust-lldb
+  rls:
+    command: bin/rls
+  rust-analyzer:
+    command: bin/rust-analyzer
+  rustdoc:
+    command: bin/rustdoc
+  rustfmt:
+    command: bin/rustfmt
