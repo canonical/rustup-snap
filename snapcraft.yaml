@@ -15,7 +15,16 @@ parts:
   rustup:
     plugin: rust
     rust-use-global-lto: 1
-    rust-features: [ no-self-update ]
+    rust-no-default-features: 1
+    rust-features:
+      - no-self-update
+      - curl-backend
+      - reqwest-backend
+      - reqwest-default-tls
+      # rustls is disabled so that rustup can be built on Tier 2 architectures
+      # this could be re-enabled when all the dependencies upgraded to
+      # the latest version of rustls
+      # reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
     source-tag: '1.26.0'
