@@ -1,6 +1,6 @@
 name: rustup
-base: core22
-version: '1.27.1'
+base: core24
+version: '1.28.1'
 summary: The Rust toolchain installer
 description: |
     Rustup installs The Rust Programming Language from the official release
@@ -19,23 +19,19 @@ parts:
     rust-features:
       - no-self-update
       - curl-backend
-      - reqwest-backend
-      - reqwest-default-tls
-      # rustls is disabled so that rustup can be built on Tier 2 architectures
-      # this could be re-enabled when all the dependencies upgraded to
-      # the latest version of rustls
-      # reqwest-rustls-tls
+      - reqwest-native-tls
+      - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.27.1'
+    source-tag: '1.28.1'
     build-packages:
       - pkg-config
       - libssl-dev
       - zlib1g-dev
     build-environment:
       - RUSTFLAGS: >
-          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core22/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core22/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
+          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
     override-prime: |
         craftctl default
         mv -v "$CRAFT_PRIME"/bin/rustup-init "$CRAFT_PRIME"/bin/rustup
