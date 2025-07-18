@@ -1,0 +1,22 @@
+name: Publish Snap to Snap store
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-24.04-arm
+
+    steps:
+      - name: checkout git repository
+        uses: actions/checkout@v4
+
+      - name: Build the snap
+        uses: snapcore/action-build@v1
+        with:
+          snapcraft-channel: 8.x/stable
