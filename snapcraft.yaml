@@ -28,6 +28,8 @@ parts:
       - pkg-config
       - libssl-dev
       - zlib1g-dev
+      - cmake
+      - clang
     build-environment:
       - RUSTFLAGS: >
           -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
