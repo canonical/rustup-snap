@@ -1,6 +1,6 @@
 name: rustup
 base: core24
-version: '1.28.1'
+version: '1.28.2'
 summary: The Rust toolchain installer
 description: |
     Rustup installs The Rust Programming Language from the official release
@@ -23,7 +23,7 @@ parts:
       - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.28.1'
+    source-tag: '1.28.2'
     build-packages:
       - pkg-config
       - libssl-dev
