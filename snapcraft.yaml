@@ -39,6 +39,9 @@ parts:
       - zlib1g-dev
       - cmake
       - clang
+      - patchelf
+    build-attributes:
+      - enable-patchelf
     build-environment:
       - RUSTFLAGS: >
           -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
@@ -46,11 +49,36 @@ parts:
     override-prime: |
         craftctl default
         mv -v "$CRAFT_PRIME"/bin/rustup-init "$CRAFT_PRIME"/bin/rustup
+
         # create symlinks to other tools
         _bins=(rustc cargo cargo-clippy cargo-fmt cargo-miri clippy-driver rust-gdb rust-lldb rls rust-analyzer rustdoc rustfmt)
         for b in "${_bins[@]}"; do
             ln -sv rustup "$CRAFT_PRIME"/bin/$b
         done
+
+        # Set the interpreter based on architecture
+        _interp=""
+        case "$CRAFT_ARCH_TRIPLET_BUILD_FOR" in
+          x86_64-linux-gnu)
+            _interp="/snap/core24/current/lib64/ld-linux-x86-64.so.2"
+            ;;
+          arm-linux-gnueabihf)
+            _interp="/snap/core24/current/lib/arm-linux-gnueabihf/ld-linux-armhf.so.3"
+            ;;
+          aarch64-linux-gnu)
+            _interp="/snap/core24/current/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1"
+            ;;
+          s390x-linux-gnu)
+            _interp="/snap/core24/current/lib/s390x-linux-gnu/ld-linux-s390x.so.1"
+            ;;
+          powerpc64le-linux-gnu)
+            _interp="/snap/core24/current/lib/powerpc64le-linux-gnu/ld64.so.1"
+            ;;
+        esac
+
+        if [ -n "$_interp" ]; then
+          patchelf --set-interpreter "$_interp" "$CRAFT_PRIME"/bin/rustup
+        fi
 
 apps:
   rustup:
