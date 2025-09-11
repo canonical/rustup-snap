@@ -1,5 +1,4 @@
 name: rustup
-base: core24
 version: '1.28.2'
 summary: The Rust toolchain installer
 description: |
@@ -8,8 +7,18 @@ description: |
     compilers and keep them updated. It makes cross-compiling simpler with
     binary builds of the standard library for common platforms.
     And it runs on all platforms Rust supports, including Windows.
+
+    
+base: core24
 grade: stable
 confinement: classic
+
+platforms:
+  amd64:
+  armhf:
+  arm64:
+  s390x:
+  ppc64el:
 
 parts:
   rustup:
