@@ -30,17 +30,19 @@ parts:
       - zlib1g-dev
       - cmake
       - clang
+    build-attributes:
+      - enable-patchelf
     build-environment:
       - RUSTFLAGS: >
           -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
           -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
-    override-prime: |
+    override-build: |
         craftctl default
-        mv -v "$CRAFT_PRIME"/bin/rustup-init "$CRAFT_PRIME"/bin/rustup
+        mv -v "$CRAFT_PART_INSTALL"/bin/rustup-init "$CRAFT_PART_INSTALL"/bin/rustup
         # create symlinks to other tools
         _bins=(rustc cargo cargo-clippy cargo-fmt cargo-miri clippy-driver rust-gdb rust-lldb rls rust-analyzer rustdoc rustfmt)
         for b in "${_bins[@]}"; do
-            ln -sv rustup "$CRAFT_PRIME"/bin/$b
+            ln -sv rustup "$CRAFT_PART_INSTALL"/bin/$b
         done
 
 apps:
