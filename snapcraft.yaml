@@ -36,6 +36,9 @@ parts:
       - RUSTFLAGS: >
           -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
           -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
+    override-pull: |
+        rustup default stable
+        craftctl default
     override-build: |
         craftctl default
         mv -v "$CRAFT_PART_INSTALL"/bin/rustup-init "$CRAFT_PART_INSTALL"/bin/rustup
