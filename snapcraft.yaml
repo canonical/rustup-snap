@@ -1,5 +1,5 @@
 name: rustup
-base: core24
+base: core26
 version: '1.28.2'
 summary: The Rust toolchain installer
 description: |
@@ -34,8 +34,8 @@ parts:
       - enable-patchelf
     build-environment:
       - RUSTFLAGS: >
-          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
+          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core26/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core26/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
     override-pull: |
         rustup default stable
         craftctl default
