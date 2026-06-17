@@ -1,6 +1,6 @@
 name: rustup
-base: core24
-version: '1.28.2'
+base: core26
+version: '1.29.0'
 summary: The Rust toolchain installer
 description: |
     Rustup installs The Rust Programming Language from the official release
@@ -23,7 +23,7 @@ parts:
       - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.28.2'
+    source-tag: '1.29.0'
     build-packages:
       - pkg-config
       - libssl-dev
@@ -34,8 +34,8 @@ parts:
       - enable-patchelf
     build-environment:
       - RUSTFLAGS: >
-          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
-          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core24/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
+          -Clink-arg=-Wl,-rpath=\$ORIGIN/lib:/snap/core26/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR
+          -Clink-arg=-Wl,-dynamic-linker=$(find /snap/core26/current/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR -name 'ld*.so.*' -print | head -n1)
     override-pull: |
         rustup default stable
         craftctl default
