@@ -2,6 +2,8 @@
 
 This repository contains the Snap manifest of the [`rustup`](https://github.com/rust-lang/rustup) tool.
 
+[![Get it from the Snap Store](https://snapcraft.io/en/dark/install.svg)](https://snapcraft.io/rustup)
+
 ## License
 
 `rustup` itself is licensed under either of Apache License or MIT license.
