@@ -1,0 +1,55 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build, Lint, and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for non-ASCII filenames
+        run: |
+          if git -c core.quotepath=false ls-files | LC_ALL=C grep -q -P '[^\x20-\x7E]'; then
+            echo "::error::Attempt to add non-ASCII file name(s):"
+            git -c core.quotepath=false ls-files | LC_ALL=C grep -P '[^\x20-\x7E]'
+            exit 1
+          fi
+          echo "All tracked filenames are valid ASCII."
+
+      - name: Set up LXD
+        uses: canonical/setup-lxd@v0.1.3
+
+      - name: Set up Snapcraft
+        run: |
+          sudo snap install snapcraft --classic
+
+      - name: Build snap package
+        run: |
+          snapcraft pack --use-lxd
+
+      - name: Run spread tests
+        run: |
+          snapcraft test
+
+      - name: Run linter
+        run: |
+          SNAP_FILE=$(find . -maxdepth 1 -name "*.snap" | head -n 1)
+          if [ -z "$SNAP_FILE" ]; then
+            echo "::error::No snap package found to lint"
+            exit 1
+          fi
+          snapcraft lint "$SNAP_FILE"

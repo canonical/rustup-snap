@@ -1,0 +1,22 @@
+project: rustup
+
+backends:
+  craft:
+    type: craft
+    systems:
+      - ubuntu-26.04
+      - ubuntu-24.04
+      - ubuntu-22.04
+
+suites:
+  spread/general/:
+    summary: General integration tests
+    prepare: |
+      snap install "$CRAFT_ARTIFACT" --dangerous --classic
+    restore: |
+      snap remove rustup --purge --terminate
+
+exclude:
+  - .git
+
+kill-timeout: 1h

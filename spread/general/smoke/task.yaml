@@ -1,0 +1,11 @@
+summary: Verify rustup snap binaries and installation
+
+execute: |
+  # Verify rustup binary is available and executable
+  rustup --version
+
+  # Verify rustup show outputs status without fatal errors
+  rustup show
+
+  # Verify rustup help works
+  rustup --help

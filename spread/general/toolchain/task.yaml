@@ -1,0 +1,20 @@
+summary: Verify rust toolchain installation and rustc/cargo execution
+
+execute: |
+  # Install stable Rust toolchain via rustup
+  rustup toolchain install stable --profile minimal
+  rustup default stable
+
+  # Verify rustc and cargo work
+  rustc --version
+  cargo --version
+
+  # Test compiling and running a minimal Rust program
+  WORKDIR="$(mktemp -d)"
+  trap 'rm -rf "$WORKDIR"' EXIT
+  cd "$WORKDIR"
+
+  cargo new hello_world --bin
+  cd hello_world
+  cargo run
+  cargo test
