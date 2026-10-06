@@ -64,12 +64,13 @@ if [ -z "$SNAP_FILE" ]; then
     exit 1
 fi
 
+## Disable until https://github.com/canonical/snapcraft/issues/6332 is corrected
 # ensure snap package passes snapcraft linter
-echo "Running linter on $SNAP_FILE..."
-if ! snapcraft lint "$SNAP_FILE"
-then
-    echo "There are some linter issues. See linter log for details."
-    exit 1
-fi
+#echo "Running linter on $SNAP_FILE..."
+#if ! snapcraft lint "$SNAP_FILE"
+#then
+#    echo "There are some linter issues. See linter log for details."
+#    exit 1
+#fi
 
 exit 0

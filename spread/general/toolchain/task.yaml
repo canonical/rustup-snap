@@ -5,6 +5,14 @@ execute: |
   rustup toolchain install stable --profile minimal
   rustup default stable
 
+  # Add the installed toolchain's bin directory to PATH so rustc and cargo can be found
+  TOOLCHAIN_BIN="$(dirname "$(rustup which rustc)")"
+  export PATH="$TOOLCHAIN_BIN:$PATH"
+
+  which rustup
+  which rustc
+  which cargo
+
   # Verify rustc and cargo work
   rustc --version
   cargo --version
@@ -14,6 +22,11 @@ execute: |
   trap 'rm -rf "$WORKDIR"' EXIT
   cd "$WORKDIR"
 
+  # Need 'cc' to compile the hello world program, so install it if not present
+  if ! command -v cc &> /dev/null; then
+    echo "cc could not be found, installing clang..."
+    sudo apt-get update && sudo apt-get install -y clang llvm
+  fi
   cargo new hello_world --bin
   cd hello_world
   cargo run
