@@ -1,7 +1,17 @@
 name: rustup
 base: core26
-version: '1.29.0'
+version: '1.29.1'
+license: Apache-2.0 OR MIT
 summary: The Rust toolchain installer
+title: rustup - The Rust toolchain installer
+issues:
+  - https://github.com/canonical/rustup-snap/issues
+contact:
+  - https://github.com/canonical/rustup-snap/issues
+source-code:
+  - https://github.com/canonical/rustup-snap/
+website:
+  - https://github.com/canonical/rustup-snap/
 description: |
     Rustup installs The Rust Programming Language from the official release
     channels, enabling you to easily switch between stable, beta, and nightly
@@ -22,7 +32,7 @@ parts:
       - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.29.0'
+    source-tag: '1.29.1'
     build-packages:
       - pkg-config
       - libssl-dev

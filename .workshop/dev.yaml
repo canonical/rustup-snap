@@ -1,0 +1,8 @@
+name: dev
+base: ubuntu@26.04
+
+sdks:
+  - name: rust
+  - name: opencode
+  - name: copilot
+
