@@ -1,6 +1,6 @@
 name: rustup
 base: core26
-version: '1.29.1'
+version: '1.29.2'
 license: Apache-2.0 OR MIT
 summary: The Rust toolchain installer
 title: rustup - The Rust toolchain installer
@@ -32,7 +32,7 @@ parts:
       - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.29.1'
+    source-tag: '1.29.2'
     build-packages:
       - pkg-config
       - libssl-dev
