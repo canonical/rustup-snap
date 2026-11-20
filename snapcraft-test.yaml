@@ -1,5 +1,3 @@
-project: rustup
-
 backends:
   craft:
     type: craft
