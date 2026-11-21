@@ -1,6 +1,6 @@
 name: rustup
 base: core26
-version: '1.29.2'
+version: '1.29.3'
 license: Apache-2.0 OR MIT
 summary: The Rust toolchain installer
 title: rustup - The Rust toolchain installer
@@ -32,7 +32,7 @@ parts:
       - reqwest-rustls-tls
     source: https://github.com/rust-lang/rustup.git
     source-type: git
-    source-tag: '1.29.2'
+    source-tag: '1.29.3'
     build-packages:
       - pkg-config
       - libssl-dev
@@ -50,11 +50,11 @@ parts:
         craftctl default
     override-build: |
         craftctl default
-        mv -v "$CRAFT_PART_INSTALL"/bin/rustup-init "$CRAFT_PART_INSTALL"/bin/rustup
+        mv -v "${CRAFT_PART_INSTALL}/bin/rustup-init" "${CRAFT_PART_INSTALL}/bin/rustup"
         # create symlinks to other tools
         _bins=(rustc cargo cargo-clippy cargo-fmt cargo-miri clippy-driver rust-gdb rust-lldb rls rust-analyzer rustdoc rustfmt)
         for b in "${_bins[@]}"; do
-            ln -sv rustup "$CRAFT_PART_INSTALL"/bin/$b
+            ln -sv rustup "${CRAFT_PART_INSTALL}/bin/${b}"
         done
 
 apps:
